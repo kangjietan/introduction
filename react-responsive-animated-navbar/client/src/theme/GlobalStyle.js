@@ -42,6 +42,12 @@ const GlobalStyle = createGlobalStyle`
   .fa-secondary {
     transition: 600ms;
   }
+
+  @media only screen and (max-width: 600px) {
+    main {
+      margin: 0;
+    }
+  }
 `;
  
 export default GlobalStyle;
