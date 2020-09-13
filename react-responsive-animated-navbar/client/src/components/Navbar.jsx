@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 // Component variables
 const transitionSpeed = '600ms';
@@ -8,13 +8,19 @@ const textSecondary = '#ececec';
 const bgPrimary = '#23232e';
 const bgSecondary = '#141418';
 
+// .link-text
+const LinkText = styled.span`
+  display: none;
+  margin-left: 1rem;
+`;
+
 // .navbar
 const NavigationBar = styled.nav`
   position: fixed;
   background-color: ${bgPrimary};
   transition: width 200ms ease;
 
-  ${NavigationBar}:hover ${Logo} svg {
+  ${NavigationBar}:hover #logo svg {
     transform: rotate(180deg);
   }
 
@@ -35,10 +41,6 @@ const NavigationBar = styled.nav`
   
     ${NavigationLink} {
       justify-content: center;
-    }
-  
-    main {
-      margin: 0;
     }
   }
 
@@ -111,26 +113,16 @@ const NavigationLink = styled.a`
   }
 `;
 
-// .link-text
-const LinkText = styled.span`
-  display: none;
-  margin-left: 1rem;
-`;
-
 // .nav-item
 const NavigationItem = styled.li`
   width: 100%;
-
-  // ${NavigationItem}: last-child {
-  //   margin-top: auto;
-  // }
 `;
 
 function Navbar(props) {
   return (
     <NavigationBar>
       <NavigationBarNav>
-        <Logo>
+        <Logo id="logo">
           <NavigationLink>
             <LinkText>Fireship</LinkText>
               <svg
