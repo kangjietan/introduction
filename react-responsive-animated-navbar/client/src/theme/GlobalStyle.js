@@ -29,6 +29,19 @@ const GlobalStyle = createGlobalStyle`
     margin-left: 5rem;
     padding: 1rem;
   }
+
+  .fa-primary {
+    color: #ff7eee;
+  }
+  
+  .fa-secondary {
+    color: #df49a6;
+  }
+
+  .fa-primary,
+  .fa-secondary {
+    transition: 600ms;
+  }
 `;
  
 export default GlobalStyle;
