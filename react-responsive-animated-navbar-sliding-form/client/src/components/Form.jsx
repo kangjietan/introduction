@@ -365,7 +365,7 @@ class Form extends Component {
               <OverlayRight style={rightPanelActive ? { transform: "translateX(20%)" } : {}}>
                 <OverlayContent>
                   <h1>Hello, Friend!</h1>
-                  <p>Enter your personal details and start journey with us</p>
+                  <p>Enter your personal details and start your journey with us</p>
                 </OverlayContent>
                 <GhostButton onClick={this.enableRightPanelActive}>Sign Up</GhostButton>
               </OverlayRight>
