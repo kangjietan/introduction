@@ -1,5 +1,4 @@
 import React from "react";
-import { OptionalTypeNode } from "typescript";
 
 interface Props {
   name: string;
@@ -124,5 +123,24 @@ type AppProps = {
   /** An optional prop (VERY COMMON) */
   optional?: OptionalType;
 };
+
+/** React Prop Types */
+export declare interface ReactPropTypes {
+  children1: JSX.Element; // Bad, doesn't account for arrays
+  children2: JSX.Element | JSX.Element[]; // Doesn't accept strings
+  children3: React.ReactChildren; // Despite the name, not at all an appropriate type. It is a utility
+  children4: React.ReactChild[]; // Better
+  children: React.ReactNode; // Best, accepts everything
+  functionChildren: (name: string) => React.ReactNode; // Recommended function as a child render prop type
+  style?: React.CSSProperties; // To pass through style props
+  onChange?: React.FormEventHandler<HTMLInputElement>; // Form events. The generic parameter is the type of event.target
+  props: Props & React.ComponentPropsWithoutRef<"button">; // To impersonate all the props of a button element and explicity not forwarding its ref
+  props2: Props & React.ComponentPropsWithRef<MyButtonWithForwardRef>; // To impersonate all the props of MyButtonForwardedRef and explicity forwarding its ref
+}
+
+/**
+ * JSX.Element vs React.ReactNode
+ * 
+ */
 
 export default Heading;
