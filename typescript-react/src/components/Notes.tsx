@@ -1,4 +1,5 @@
 import React from "react";
+import { OptionalTypeNode } from "typescript";
 
 interface Props {
   name: string;
@@ -84,5 +85,44 @@ interface OtherContainerProps extends OtherButtonProps {
   /** the height of the container (value used with 'px') */
   height: number;
 }
+
+/** List of TypeScript types you will likely use in a React+TypeScript app */
+type AppProps = {
+  message: string;
+  count: number;
+  disabled: boolean;
+  /** Array of a type */
+  names: string[];
+  /** String literals to specify exact string values, with a union type to join them together*/
+  status: "watiing" | "success";
+  /** Any object as long as you don't use its properties (NOT COMMON but useful as a placehoder) */
+  obj: object;
+  obj2: {}; // Almost the same as `object`, exactly the same as `Object`
+  /** An object with any number of properties (PREFERRED) */
+  obj3: {
+    id: string;
+    title: string;
+  };
+  /** Array of objects (common) */
+  objArr: {
+    id: string;
+    title: string;
+  }[];
+  /** A dictionary object with any number of properties of the same type */
+  dict1: {
+    [key: string]: MyTypeHere;
+  };
+  dict2: Record<string, MyTypeHere>; // equivalent to dict1
+  /** Any function as long as you don't invoke it (NOT RECOMMENDED) */
+  onSomething: Function;
+  /** Function that doesn't take or return anything (VERY COMMON) */
+  onClick: () => void;
+  /** Function with named prop (VERY COMMON) */
+  onChange: (id: number) => void;
+  /** Alternative function type syntax that takes an event (VERY COMMON) */
+  onClick(event: React.MouseEvent<HTMLButtonElement>): void;
+  /** An optional prop (VERY COMMON) */
+  optional?: OptionalType;
+};
 
 export default Heading;
