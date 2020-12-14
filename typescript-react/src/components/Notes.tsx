@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 interface Props {
   name: string;
@@ -144,44 +144,138 @@ export declare interface ReactPropTypes {
  * what is return by React.createElement. Regardless of what component ends up rendering,
  * React.createElementg always returns an object, which is the JSX.Elementg interface, but
  * React.ReactNode is the set of all possible retgurn values of a component.
- * 
+ *
  * JSX.Element -> Return value of React.createElement
  * React.ReactNode -> Return value of a component
  */
 
- /**
-  * Types or Interfaces
-  * Always use interface for public API's definition when authoring a library or 3rd party
-  * ambient type definitions, as this allows a consumer to extend them via declaration merging
-  * if some definitions are missing.
-  * 
-  * Consider using type for your React Component Props and State, for consistency and because it is more constrained.
-  * 
-  * Types are more useful for union types (e.g. type MyType = TypeA | TypeB) whereas Interfaces are better
-  * for declaring dictionary shapes and then implementing or extending them.
-  * 
-  *         Aspect	                                  Type	  Interface
-  * Can describe functions                            ✅	       ✅
-  * Can describe constructors                         ✅	       ✅
-  * Can describe tuples                               ✅	       ✅
-  * Interfaces can extend it                          ⚠️	      ✅
-  * Classes can extend it	                            🚫	      ✅
-  * Classes can implement it (implements)             ⚠️	      ✅
-  * Can intersect another one of its kind	            ✅	       ⚠️
-  * Can create a union with another one of its kind	  ✅	       🚫
-  * Can be used to create mapped types	              ✅	       🚫
-  * Can be mapped over with mapped types	            ✅	       ✅
-  * Expands in error messages and logs	              ✅	       🚫
-  * Can be augmented                                  🚫	      ✅
-  * Can be recursive	                                ⚠️	      ✅
-  * 
-  * ⚠️ In some cases
-  * (source: https://twitter.com/karoljmajewski/status/1082413696075382785)
-  */
+/**
+ * Types or Interfaces
+ * Always use interface for public API's definition when authoring a library or 3rd party
+ * ambient type definitions, as this allows a consumer to extend them via declaration merging
+ * if some definitions are missing.
+ *
+ * Consider using type for your React Component Props and State, for consistency and because it is more constrained.
+ *
+ * Types are more useful for union types (e.g. type MyType = TypeA | TypeB) whereas Interfaces are better
+ * for declaring dictionary shapes and then implementing or extending them.
+ *
+ *         Aspect	                                  Type	  Interface
+ * Can describe functions                            ✅	       ✅
+ * Can describe constructors                         ✅	       ✅
+ * Can describe tuples                               ✅	       ✅
+ * Interfaces can extend it                          ⚠️	      ✅
+ * Classes can extend it	                            🚫	      ✅
+ * Classes can implement it (implements)             ⚠️	      ✅
+ * Can intersect another one of its kind	            ✅	       ⚠️
+ * Can create a union with another one of its kind	  ✅	       🚫
+ * Can be used to create mapped types	              ✅	       🚫
+ * Can be mapped over with mapped types	            ✅	       ✅
+ * Expands in error messages and logs	              ✅	       🚫
+ * Can be augmented                                  🚫	      ✅
+ * Can be recursive	                                ⚠️	      ✅
+ *
+ * ⚠️ In some cases
+ * (source: https://twitter.com/karoljmajewski/status/1082413696075382785)
+ */
+
+/** Forms and Events*/
+
+/**
+ * If performance is not an issue (and it usually isn't), inlining handlers is easiest
+ * as you can just use type inference and contextual typing
+ */
+const el = (
+  <button
+    onClick={(event) => {
+      /** Event will be correctly typed automatically */
+    }}
+  />
+);
+
+/**
+ * But if you need to define your event handler separately, IDE tooling really comes in hand here, as the
+ * @type definitions come with a wealthj of typing. Type what you are looking for and usually the autocomplete
+ * will help you out. Here is what it looks like for an onChnage for a form event
+ */
+type State = {
+  text: String;
+};
+
+class App extends React.Component<Props, State> {
+  state = {
+    text: "",
+  };
+
+  // Typing on the RIGHT hand side of =
+  onChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    this.setState({ text: e.currentTarget.value });
+  };
 
   /**
-   * Forms and Events
-   * 
+   * Instead of typing the arguments and return values with React.FormEvent<> and void, you may alternativaly apply
+   * types to the event handler itself
    */
+
+  // Typing on the LEFT hand side of =
+  onChange2: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    this.setState({ text: e.currentTarget.value });
+  };
+
+  render() {
+    return (
+      <div>
+        <input type="text" value={this.state.text} onChange={this.onChange} />
+      </div>
+    );
+  }
+}
+
+/**
+ * The first method uses an inferred method signature (e: React.FormEvent<HTMLInputElement>): void and the second method
+ * enforces a type of the delegate provided by @types/react. So React.ChangeEventHandler<> is simply a "blessed" typing by
+ * @types/react, whereas you can think of the inferred method as more... artisanally hand-rolled. Either way it's a good pattern to know.
+ */
+
+/** Typing onSubmit, with Uncontrolled components in a Form */
+
+/**
+ * If you don't quite care about the type of the event, you can just use React.SyntheticEvent. If your target form has custom
+ * named inputs that you'd like you access, you can use type widening
+ */
+function Form(): React.ReactNode {
+  const formRef = useRef(null);
+  return (
+    <form
+      ref={formRef}
+      onSubmit={(e: React.SyntheticEvent) => {
+        e.preventDefault();
+        const target = e.target as typeof e.target & {
+          email: { value: string };
+          password: { value: string };
+        };
+        const email = target.email.value; // typechecks!
+        const password = target.password.value; // typechecks!
+        // etc...
+      }}
+    >
+      <div>
+        <label>
+          Email:
+          <input type="email" name="email" />
+        </label>
+      </div>
+      <div>
+        <label>
+          Password:
+          <input type="password" name="password" />
+        </label>
+      </div>
+      <div>
+        <input type="submit" value="Log in" />
+      </div>
+    </form>
+  );
+}
 
 export default Heading;
