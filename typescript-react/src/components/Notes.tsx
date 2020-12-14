@@ -119,7 +119,7 @@ type AppProps = {
   /** Function with named prop (VERY COMMON) */
   onChange: (id: number) => void;
   /** Alternative function type syntax that takes an event (VERY COMMON) */
-  onClick(event: React.MouseEvent<HTMLButtonElement>): void;
+  onClick2(event: React.MouseEvent<HTMLButtonElement>): void;
   /** An optional prop (VERY COMMON) */
   optional?: OptionalType;
 };
@@ -277,5 +277,60 @@ function Form(): React.ReactNode {
     </form>
   );
 }
+
+/** React Context */
+interface AppContextInterface {
+  name: string;
+  author: string;
+  url: string;
+}
+
+const AppCtx = React.createContext<AppContextInterface | null>(null);
+
+// Provider in your app
+
+const sampleAppContext: AppContextInterface = {
+  name: "Using React Context in a Typescript App",
+  author: "thehappybug",
+  url: "http://www.example.com",
+};
+
+export const App2 = () => (
+  <AppCtx.Provider value={sampleAppContext}>...</AppCtx.Provider>
+);
+
+// Consume in your app
+
+export const PostInfo = () => {
+  const appContext = React.useContext(AppCtx);
+  return (
+    <div>
+      Name: {appContext.name}, Author: {appContext.author}, Url:{" "}
+      {appContext.url}
+    </div>
+  );
+};
+
+/** forwardRef/createRef */
+
+/** createRef */
+class CssThemeProvider extends React.PureComponent<Props> {
+  private rootRef = React.createRef<HTMLDivElement>();
+  render() {
+    return <div ref={this.rootRef}>{this.props.children}</div>;
+  }
+}
+
+/**
+ * forwardRef
+ * The `ref` you get from `forwardRef` is mutable so you can assign to it if needed
+ */
+type Props2 = { children: React.ReactNode; type: "submit" | "button" };
+export type Ref = HTMLButtonElement;
+export const FancyButton = React.forwardRef<Ref, Props2>((props, ref) => (
+  <button ref={ref} className="MyClassName" type={props.type}>
+    {props.children}
+  </button>
+));
 
 export default Heading;
