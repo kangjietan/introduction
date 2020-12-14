@@ -140,7 +140,48 @@ export declare interface ReactPropTypes {
 
 /**
  * JSX.Element vs React.ReactNode
+ * A more technical explanation is that valid React node is not the same thing as
+ * what is return by React.createElement. Regardless of what component ends up rendering,
+ * React.createElementg always returns an object, which is the JSX.Elementg interface, but
+ * React.ReactNode is the set of all possible retgurn values of a component.
  * 
+ * JSX.Element -> Return value of React.createElement
+ * React.ReactNode -> Return value of a component
  */
+
+ /**
+  * Types or Interfaces
+  * Always use interface for public API's definition when authoring a library or 3rd party
+  * ambient type definitions, as this allows a consumer to extend them via declaration merging
+  * if some definitions are missing.
+  * 
+  * Consider using type for your React Component Props and State, for consistency and because it is more constrained.
+  * 
+  * Types are more useful for union types (e.g. type MyType = TypeA | TypeB) whereas Interfaces are better
+  * for declaring dictionary shapes and then implementing or extending them.
+  * 
+  *         Aspect	                                  Type	  Interface
+  * Can describe functions                            ✅	       ✅
+  * Can describe constructors                         ✅	       ✅
+  * Can describe tuples                               ✅	       ✅
+  * Interfaces can extend it                          ⚠️	      ✅
+  * Classes can extend it	                            🚫	      ✅
+  * Classes can implement it (implements)             ⚠️	      ✅
+  * Can intersect another one of its kind	            ✅	       ⚠️
+  * Can create a union with another one of its kind	  ✅	       🚫
+  * Can be used to create mapped types	              ✅	       🚫
+  * Can be mapped over with mapped types	            ✅	       ✅
+  * Expands in error messages and logs	              ✅	       🚫
+  * Can be augmented                                  🚫	      ✅
+  * Can be recursive	                                ⚠️	      ✅
+  * 
+  * ⚠️ In some cases
+  * (source: https://twitter.com/karoljmajewski/status/1082413696075382785)
+  */
+
+  /**
+   * Forms and Events
+   * 
+   */
 
 export default Heading;
