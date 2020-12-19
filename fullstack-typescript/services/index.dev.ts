@@ -1,1 +1,3 @@
-console.log("Working");
+import "module-alias/register";
+
+import "./src/index";
