@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize-typescript";
 
 import accessEnv from "#root/helpers/accessEnv";
 
+import models from "./models";
+
 const dbURL = accessEnv("DB_URL");
 
 const sequelize = new Sequelize(dbURL, {
@@ -10,7 +12,7 @@ const sequelize = new Sequelize(dbURL, {
     multipleStatements: true,
   },
   logging: false,
-  // models
+  models,
 });
 
 export default sequelize;
