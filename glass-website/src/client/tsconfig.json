@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "../../build/client",
+    "module": "esnext",
+    "target": "es6",
+    "lib": ["es6", "dom", "esnext.asynciterable"],
+    "allowJs": true,
+    "jsx": "react",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "jest",
+    "src/setupTests.ts"
+  ]
+}
