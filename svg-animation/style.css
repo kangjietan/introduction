@@ -7,7 +7,8 @@
 body {
   width: 100vw;
   height: 100vh;
-  background-color: #202330;
+  /* background-color: #202330; */
+  background-color: #121212;
 }
 
 #kang {
@@ -15,14 +16,9 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid white;
-  animation: fill 0.5s ease forwards 0.5s;
-}
-
-#kang path:nth-child(1) {
-  stroke-dasharray: 1974px;
-  stroke-dashoffset: 1974px;
-  animation: line-anim 2s ease forwards 0.3s;
+  /* border: 1px solid white; */
+  /* width: 20vw; */
+  /* background-color: #000000; */
 }
 
 @keyframes line-anim {
@@ -36,6 +32,6 @@ body {
     fill: transparent;
   }
   to {
-    fill: white;
+    fill: #BB86FC;
   }
 }
